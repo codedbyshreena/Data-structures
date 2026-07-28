@@ -85,7 +85,6 @@ void deleteAtEnd(){
         return;
     }
 
-    // If only one node
     if (first->link == NULL) {
         free(first);
         first = NULL;
@@ -93,9 +92,7 @@ void deleteAtEnd(){
     }
 
     struct Node* save = first;
-
-    // Traverse to the second last node
-    // Must Be Remember That If We Want To Delete A Node Then Apde Te (Je Node Delete Karvano Che) Teni Agalna Node Par Stop Thai Javanu  
+ 
     while(save->link->link != NULL){
 
         save = save->link;
@@ -158,8 +155,6 @@ void deleteAtPosition(int idx)
     free(temp);
     
 }
-
-
 
 void main(){
 
