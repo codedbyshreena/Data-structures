@@ -23,6 +23,7 @@ int pop() {
     }
     return stack[top--];
 }
+
 void evaluate_postfix(char exp[100]) {
     int i = 0;
     char ch;
@@ -67,7 +68,7 @@ void main() {
     char exp[100];
     printf("Enter a Postfix Expression : ");
     scanf("%s", exp);
-    
+
     evaluate_postfix(exp);
     printf("Answer : %d", pop());
 }

@@ -23,6 +23,7 @@ int pop() {
     }
     return stack[top--];
 }
+
 void evaluate_prefix(char exp[100]) {
     int i = 0;
     char ch;
@@ -67,7 +68,7 @@ void main() {
     char exp[100];
     printf("Enter a Prefix Expression : ");
     scanf("%s", exp);
-    
+
     strrev(exp);
 
     evaluate_prefix(exp);
