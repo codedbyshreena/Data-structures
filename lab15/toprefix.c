@@ -14,13 +14,13 @@ char pop(){
 
 int input_Precedence(char ch){
     if(ch == '+' || ch == '-'){
-        return 1;
+        return 2;
     }
     else if(ch == '*' || ch == '/'){
-        return 3;
+        return 4;
     }
     else if(ch == '^'){
-        return 6;
+        return 5;
     }
     else if(ch == '('){
         return 9;
@@ -35,13 +35,13 @@ int input_Precedence(char ch){
 
 int stack_Precedence(char ch){
     if(ch == '+' || ch == '-'){
-        return 2;
+        return 1;
     }
     else if(ch == '*' || ch == '/'){
-        return 4;
+        return 3;
     }
     else if(ch == '^'){
-        return 5;
+        return 6;
     }
     else if(ch == '('){
         return 0;
@@ -61,28 +61,23 @@ int r(char ch){
 }
 
 void revPol(char infix[]){
-    
     int i = 0;
     int j = 0;
     int rank = 0;
-    char postfix[100];
+    char prefix[100];
     push('(');
 
     while(i != strlen(infix)){
-        
         char next = infix[i];
-
-        if(top < 0){ 
+        if(top < 0){
             printf("Invalid Expression.");
             return;
         }
 
         while(stack_Precedence(stack[top]) > input_Precedence(next)){
-            
             char temp = pop();
-            postfix[j++] = temp;
-
             rank += r(temp);
+            prefix[j++] = temp;
 
             if(rank < 1){
                 printf("Invalid Expression.");
@@ -100,24 +95,39 @@ void revPol(char infix[]){
         i++;
     }
 
-    postfix[j] = '\0';
+    prefix[j] = '\0';
 
     if(rank != 1 || top != -1){
         printf("Invalid Expression.");
     }
     else{
-        printf("%s" , postfix);
+        printf("%s" , strrev(prefix));
     }
 }
 
 void main(){
-    char infix[100];
+    char infix[100] , revInfix[100];
 
     printf("Enter Infix String : ");
     scanf("%s",infix);
+    int j = 0;
+    
+    // Reverse
+    for(int i=strlen(infix) - 1 ; i>=0 ; i--){
+        if(infix[i] == ')'){
+            revInfix[j++] = '(';
+        }
+        else if(infix[i] == '('){
+            revInfix[j++] = ')';
+        }
+        else{
+            revInfix[j++] = infix[i];
+        }
+    }
 
-    strcat(infix,")");
+    revInfix[j] = '\0';
 
-    revPol(infix);
+    strcat(revInfix,")");
 
+    revPol(revInfix);
 }
