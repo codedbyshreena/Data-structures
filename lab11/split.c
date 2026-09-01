@@ -2,19 +2,19 @@
 #include <stdlib.h>
 #include <math.h>
 
-struct node
+struct Node
 {
     int info;
-    struct node *link;
+    struct Node *link;
 };
 
-struct node *FIRST = NULL;
-struct node *LAST = NULL;
+struct Node *FIRST = NULL;
+struct Node *LAST = NULL;
 
 void insertAtFirst(int n)
 {
 
-    struct node *newNode = (struct node *)malloc(sizeof(struct node));
+    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
 
     newNode->info = n;
 
@@ -32,49 +32,80 @@ void insertAtFirst(int n)
     }
 }
 
+void insertAtLast(int n)
+{
+
+    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
+
+    newNode->info = n;
+
+    if (FIRST == NULL)
+    {
+        FIRST = LAST = newNode;
+        LAST->link = FIRST;
+    }
+
+    else
+    {
+        newNode->link = FIRST;
+        LAST->link = newNode;
+        LAST = newNode;
+    }
+}
+
 void display()
 {
 
-    struct node *save = FIRST;
+    struct Node *curr = FIRST;
 
-    if (save == NULL)
+    if (curr == NULL)
     {
         printf("List Is Empty\n");
         return;
     }
 
-    while(save->link != FIRST){
-        printf("%d -> " , save->info);
-        save = save->link;
-    }
+    do
+    {
 
-    printf("%d\n" , save->info);
+        printf("%d -> ", curr->info);
+        curr = curr->link;
+    } while (curr != FIRST);
 
-    
+    printf("%d\n", FIRST->info);
 }
 
-struct node* split() {
+struct Node* split() {
 
     if (FIRST == NULL || FIRST->link == FIRST) {
         printf("Not enough elements to split.\n");
         return NULL;
     }
 
-    struct node* slow = FIRST;
-    struct node* fast = FIRST;
+    struct Node* slow = FIRST;
+    struct Node* fast = FIRST;
 
+    // Use slow-fast with CSLL condition
     while (fast->link != FIRST && fast->link->link != FIRST) {
         slow = slow->link;
         fast = fast->link->link;
     }
 
-    struct node* FIRST2 = slow->link; 
+    struct Node* FIRST2 = slow->link; // start of second half
 
+    // peli half circular
     slow->link = FIRST;
+
     LAST->link = FIRST2;
 
-    display(FIRST);
+    return FIRST2; // return the FIRST of the second half
+
+    // biji half circular
+    // struct Node* curr = FIRST2;
+    // while (curr->link != FIRST) {
+    //     curr = curr->link;
+    // }
 }
+
 
 void main()
 {
@@ -83,6 +114,10 @@ void main()
     insertAtFirst(6);
     insertAtFirst(9);
     insertAtFirst(18);
+    insertAtFirst(5);
+    insertAtFirst(25);
+
     display();
-    split();
+
+    display();
 }
